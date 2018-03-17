@@ -9,29 +9,34 @@ public class PlayerController : MonoBehaviour
 	public float jumpForce;
 	public LayerMask whatIsGround;
 
-	private Rigidbody2D _rigidbody;
-	private BoxCollider2D _collider;
+	private Rigidbody2D myRigidBody;
+	private BoxCollider2D myCollider;
 
-	[SerializeField] private bool _isGround = false;
+	private bool grounded = false;
+	private Animator myAnimator;
 
 	private void Start()
 	{
-		_rigidbody = GetComponent<Rigidbody2D>();
-		_collider = GetComponent<BoxCollider2D>();
+		myRigidBody = GetComponent<Rigidbody2D>();
+		myCollider = GetComponent<BoxCollider2D>();
+		myAnimator = GetComponent<Animator> ();
 	}
 
 	void Update()
 	{
-		_isGround = Physics2D.IsTouchingLayers(_collider, whatIsGround);
+		grounded = Physics2D.IsTouchingLayers(myCollider, whatIsGround);
 
-		_rigidbody.velocity = new Vector2(moveSpeed, _rigidbody.velocity.y);
+		myRigidBody.velocity = new Vector2(moveSpeed, myRigidBody.velocity.y);
 
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			if (_isGround)
+			if (grounded)
 			{
-				_rigidbody.velocity = new Vector2(_rigidbody.velocity.x, jumpForce);
+				myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, jumpForce);
 			}
 		}
+
+		myAnimator.SetFloat ("Speed", myRigidBody.velocity.x);
+		myAnimator.SetBool ("Grounded", grounded);
 	}
 }
