@@ -4,6 +4,8 @@
 /client/Temp/
 /Library/
 /Temp/
+/[Oo]bj/
+/UnityPackageManager/
 
 # Created by https://www.gitignore.io/api/unity
 
