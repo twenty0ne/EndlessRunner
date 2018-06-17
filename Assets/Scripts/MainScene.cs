@@ -8,19 +8,10 @@ public class MainScene : MonoBehaviour
 
 	public Transform spawnPoint;
 
-	// UI
-	public GameObject objMenuXian;
-	public GameObject objMenuBattlePrepare;
-    public GameObject objMenuWalker;
-
 	void Awake()
 	{
 		Debug.Assert (instance == null, "CHECK");
 		instance = this;
-
-		objMenuXian.SetActive (false);
-		objMenuBattlePrepare.SetActive (false);
-        objMenuWalker.SetActive(false);
 	}
 
 	void OnDestroy()
@@ -52,13 +43,4 @@ public class MainScene : MonoBehaviour
 
 		return Vector3.zero;
 	}
-		
-    public MenuWalker SetMenuWalkerVisible(bool isVisible)
-    {
-        if (objMenuWalker.activeSelf == isVisible)
-            return null;
-
-        objMenuWalker.SetActive(isVisible);
-        return objMenuWalker.GetComponent<MenuWalker>();
-    }
 }

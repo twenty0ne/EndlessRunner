@@ -28,11 +28,8 @@ public class MenuMain : MonoBehaviour {
 
 	public void OnClickToBattleButton()
 	{
-		// GameManager.sceneType = SceneType.Battle;
-		// SceneManager.LoadScene ("BattleScene");
-
-		MainScene.instance.objMenuBattlePrepare.SetActive (true);
-	}
+        UIManager.Instance.OpenMenu("MenuBattlePrepare");
+    }
 
 	public void OnClickToJumpButton()
 	{

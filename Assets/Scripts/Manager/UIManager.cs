@@ -4,18 +4,49 @@ using UnityEngine;
 
 public class UIManager : MonoSingleton<UIManager> 
 {
-    public bool isMenuOver = false;
-    // public GameObject[] objMenus
+    private UIRoot m_uiRoot = null;
+    private GameObject m_curMenu = null;
 
-    public void OpenMenu(string menuName)
+    public GameObject OpenMenu(string menuName)
     {
+        if (m_curMenu != null && m_curMenu.name == menuName)
+        {
+            m_curMenu.SetActive(true);
+            return m_curMenu;
+        }
+
+        VerifyUIRoot();
+        Debug.Assert(m_uiRoot != null, "CHECK");
+
         // find in scene
-        // Resources.FindObjectsOfTypeAll
-        isMenuOver = true;
+        var uipanel = m_uiRoot.GetUIPanelByName(menuName);
+        if (uipanel != null)
+        {
+            m_curMenu = uipanel;
+
+            uipanel.SetActive(true);
+            return uipanel;
+        }
+        return null;
     }
 
-    public void OpenDialog()
+    private void VerifyUIRoot()
     {
-        
+        if (m_uiRoot == null)
+        {
+            var uiRoot = GameObject.FindObjectOfType<UIRoot>();
+            m_uiRoot = uiRoot;
+        }
+    }
+
+    void Update()
+    {
+        if (m_curMenu != null && m_curMenu.activeSelf == false)
+            m_curMenu = null;
+    }
+
+    public bool isMenuOver 
+    {
+        get { return m_curMenu != null && m_curMenu.activeSelf; }
     }
 }
