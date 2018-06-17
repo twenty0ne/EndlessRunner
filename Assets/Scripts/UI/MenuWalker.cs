@@ -21,6 +21,9 @@ public class MenuWalker : MonoBehaviour
 
     public void InitWithWalker(Walker wk)
     {
+        DataManager.instance.soul = 1000;
+        DataManager.instance.SavePlayerData();
+
         m_walker = wk;
 
         txtName.text = "Name: " + wk.StringAttr("name");

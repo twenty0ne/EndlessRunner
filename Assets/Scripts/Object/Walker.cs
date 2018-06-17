@@ -79,8 +79,8 @@ public class Walker : Actor
 
     public bool CanUpgrade()
     {
-        return (CostCoinForUpgrade() >= DataManager.instance.coin &&
-                CostSoulForUpgrade() >= DataManager.instance.soul);
+        return (CostCoinForUpgrade() <= DataManager.instance.coin &&
+                CostSoulForUpgrade() <= DataManager.instance.soul);
     }
 
     public void Upgrade()

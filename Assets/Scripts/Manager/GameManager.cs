@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
 			return;
 		}
 
+        // TODO
+        // 编辑器模式下，场景可能载入2次
 		GameManager.sceneType = SceneType.Load;
 		SceneManager.LoadScene ("LoadScene");
 	}
