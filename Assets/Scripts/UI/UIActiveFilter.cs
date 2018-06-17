@@ -12,7 +12,6 @@ public class UIActiveFilter : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log("xx-- UIActiveFilter.Awake");
         for (int i = 0; i < hideObjects.Count; ++i)
         {
             if (hideObjects[i] != null)

@@ -113,12 +113,6 @@ public class Walker : Actor
             var menuWalker = menu.GetComponent<MenuWalker>();
             menuWalker.InitWithWalker(this);
         }
-
-//        MenuWalker menuWalker = MainScene.instance.SetMenuWalkerVisible(true);
-//        if (menuWalker != null)
-//        {
-//            menuWalker.InitWithWalker(this);
-//        }
     }
 
     private void SetClickEnable(bool isEnable)

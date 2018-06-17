@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class MenuWalker : MonoBehaviour 
 {
     public Text txtName;
+    public Text txtLv;
     public Text txtAtk;
     public Text txtDef;
     public Text txtCoin;
@@ -21,12 +22,10 @@ public class MenuWalker : MonoBehaviour
 
     public void InitWithWalker(Walker wk)
     {
-        DataManager.instance.soul = 1000;
-        DataManager.instance.SavePlayerData();
-
         m_walker = wk;
 
         txtName.text = "Name: " + wk.StringAttr("name");
+        txtLv.text = "Lv: " + wk.IntAttr("lv").ToString();
         txtAtk.text = "Atk: " + wk.atk.ToString();
         txtDef.text = "Def: " + wk.def.ToString();
         txtCoin.text = "Coin: " + wk.CostCoinForUpgrade().ToString();
@@ -39,6 +38,8 @@ public class MenuWalker : MonoBehaviour
     {
         Debug.Log("MenuWalker.OnClickButtonUpgrade");
         m_walker.Upgrade();
+
+        InitWithWalker(m_walker);
     }
 
     public void OnClickButtonExit()
