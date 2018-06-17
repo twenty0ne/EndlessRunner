@@ -28,20 +28,20 @@ public class GameManager : MonoBehaviour
 	public GameObject xianPrefab;
 	public GameObject monsterPrefab;
 
+#if UNITY_EDITOR
 	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
 	static void OnBeforeSceneLoadRuntimeMethod()
 	{
-#if UNITY_EDITOR
 		var editorActiveSceneName = UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene().name.ToLower();
 		if (editorActiveSceneName.Contains("test") || editorActiveSceneName.Contains("debug"))
 		{
 			return;
 		}
-#endif
 
 		GameManager.sceneType = SceneType.Load;
 		SceneManager.LoadScene ("LoadScene");
 	}
+#endif
 
 	void Awake()
 	{
