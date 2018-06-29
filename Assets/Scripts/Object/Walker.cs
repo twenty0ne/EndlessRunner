@@ -55,6 +55,11 @@ public class Walker : Actor
         return default(T);
     }
 
+    private void SaveWalkerData()
+    {
+        DataManager.instance.SavePlayerData();
+    }
+
     /// <summary>
     /// Upgrade cost coin
     /// </summary>
@@ -92,6 +97,8 @@ public class Walker : Actor
         }
 
         m_walkerData.lv += 1;
+        SaveWalkerData();
+
         InitWithLv(m_walkerData.lv);
     }
 

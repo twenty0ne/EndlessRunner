@@ -82,7 +82,7 @@ public class DataManager : MonoBehaviour
 	{
 		get { return datPlayer.xianDatas; }
 	}
-
+       
 	public void UnlockXian(int xianId)
 	{
 #if DEBUG

@@ -122,7 +122,7 @@ public class MenuBattlePrepare : MonoBehaviour
 
 	private void UpdateBattleButtonStatus()
 	{
-		// NOTE:@TWENTY0NE
+		// NOTE:
 		// must include 4 walkers
 		int countWalker = 0;
 		for (int i = 0; i < widgetActorIconSelecteds.Length; ++i) 
