@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// TODO:
+// 界面出现的方式可以参考 ojbect-c storyboard
+// push, model, popover, replace, custom
 public class UIManager : MonoSingleton<UIManager> 
 {
     private UIRoot m_uiRoot = null;

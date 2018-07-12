@@ -25,13 +25,14 @@ public class XianConfig
 	// public float defFactor = 1f;
 	// public float atkSpeedFactor = 1f;
 
-	public int inviteCoin;
+	public int coinKaiGuang;
 
-	public int upCoin;
+	public int upCoinBase;
 	public int upCoinFactor;
 
 	public int MaxHP(int lv) { return (int)(hpAtLv0 + lv * hpFactor); }
 	public int MaxAtk(int lv) { return (int)(atkAtLv0 + lv * atkFactor); }
+    public int LvUpCoin(int lv) { return (int)(upCoinBase + lv * upCoinFactor); }
 }
 
 [CreateAssetMenu(fileName = "XianConfigs", menuName = "XiYou/XianConfigs", order = 1)]
@@ -43,8 +44,8 @@ public class XianConfigs : ScriptableObject
 	public XianConfig this [int index]
 	{
 		get { 
-			Debug.Assert (index >= 0 && index < xianConfigs.Count, "CHECK");
-			return xianConfigs [index]; 
+            Debug.Assert (index >= 0 && index < Count, "CHECK");
+            return xianConfigs[index]; 
 		}
 	}
 
@@ -52,4 +53,9 @@ public class XianConfigs : ScriptableObject
 	{
 		get { return xianConfigs.Count; }
 	}
+
+    public XianConfig GetById(int id)
+    {
+        return xianConfigs.Find((x) => x.id == id);
+    }
 }

@@ -6,6 +6,8 @@ public class MainScene : MonoBehaviour
 {
 	public static MainScene instance { get; private set; }
 
+    public static bool isLoadModel = false;
+
 	public Transform spawnPoint;
 
 	void Awake()
@@ -33,6 +35,19 @@ public class MainScene : MonoBehaviour
 
 		// Init Xians
 		// var xianDatas = 
+
+        // TODO
+        // Create Model
+        if (MainScene.isLoadModel == false)
+        {
+            MainScene.isLoadModel = true;
+
+            for (int i = 0; i < DataManager.instance.xianDatas.Count; i++)
+            {
+                XianData datXian = DataManager.instance.xianDatas[i];
+                MXian.Create(datXian);
+            }
+        }
 	}
 
 	Vector3 GetSpwanPoint(string name)

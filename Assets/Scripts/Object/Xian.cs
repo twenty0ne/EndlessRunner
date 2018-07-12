@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class Xian : Actor 
 {
-	private XianData _datXian;
-	private XianConfig _cfgXian;
+    private XianData m_datXian;
+    private XianConfig m_cfgXian;
 
 	public void Init(XianData datXian)
 	{
-		_datXian = datXian;
-		_cfgXian = GameManager.instance.xianConfigs [_datXian.id];
+		m_datXian = datXian;
+		m_cfgXian = GameManager.instance.xianConfigs [m_datXian.id];
 
-		maxHP = _cfgXian.MaxHP (_datXian.lv);
+		maxHP = m_cfgXian.MaxHP (m_datXian.lv);
 		hp = maxHP;
-        atk = _cfgXian.MaxAtk (_datXian.lv);
+        atk = m_cfgXian.MaxAtk (m_datXian.lv);
 		// atkSpeed = _cfgXian.atkSpeedAtLv0 + _datXian.lv * _cfgXian.atkSpeedFactor;
 
 		var sprRender = GetComponent<SpriteRenderer> ();
-		sprRender.sprite = _cfgXian.spr;
+		sprRender.sprite = m_cfgXian.spr;
 	}
 }

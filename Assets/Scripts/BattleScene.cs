@@ -57,7 +57,7 @@ public class BattleScene : MonoBehaviour
 		for (int i = 0; i < xianDatas.Count; ++i) 
 		{
 			var xianData = xianDatas [i];
-			if (xianData.isInvited) 
+            if (xianData.isKaiGuang) 
 			{
 				var objXian = Instantiate (GameManager.instance.xianPrefab);
 				var xian = objXian.GetComponent<Xian> ();
@@ -124,8 +124,10 @@ public class BattleScene : MonoBehaviour
                 var levelConfig = GameManager.instance.levelConfigs [m_curLevelIndex];
                 DataManager.instance.coin += levelConfig.coin;
                 DataManager.instance.exp += levelConfig.exp;
-                if (levelConfig.unlockXianId >= 0)
-                    DataManager.instance.UnlockXian (levelConfig.unlockXianId);
+                if (MXian.IsValidId(levelConfig.unlockXianId))
+                {
+                    MXian.Unlock(levelConfig.unlockXianId);
+                }
 
                 menuBattleEnd.SetActive (true);
                 var menuCtrl = menuBattleEnd.GetComponent<MenuBattleEnd> ();

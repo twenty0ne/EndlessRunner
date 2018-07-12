@@ -16,6 +16,7 @@ public class LevelConfig
 	public int id;
 	public string name;
 	public LevelMonsterConfig[] monsters;
+    // reward
 	public int coin;
 	public int exp;
 	public int unlockXianId = -1;
@@ -29,9 +30,10 @@ public class LevelConfigs : ScriptableObject
 
 	public LevelConfig this [int index]
 	{
-		get { 
+		get 
+        { 
 			Debug.Assert (index >= 0 && index < Count, "CHECK");
-			return levelConfigs [index]; 
+			return levelConfigs [index];
 		}
 	}
 

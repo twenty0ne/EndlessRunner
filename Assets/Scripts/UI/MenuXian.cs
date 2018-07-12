@@ -22,8 +22,8 @@ public class MenuXian : MonoBehaviour
 			var obj = Instantiate (widgetXianPrefab);
 			obj.transform.SetParent (widgetXianParent, false);
 
-			var ctrl = obj.GetComponent<WidgetXian> ();
-			ctrl.Init (xianConfigs [i].id);
+			var wid = obj.GetComponent<WidgetXian> ();
+            wid.Init (xianConfigs [i].id);
 		}
 	}
 

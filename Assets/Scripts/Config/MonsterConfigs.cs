@@ -33,11 +33,11 @@ public class MonsterConfigs : ScriptableObject
 	[SerializeField]
 	private List<MonsterConfig> monsterConfigs;
 
-	public MonsterConfig this [int id]
+	public MonsterConfig this [int index]
 	{
 		get { 
-			// Debug.Assert (index >= 0 && index < Count, "CHECK");
-			return monsterConfigs.Find(x=>x.id == id);
+			Debug.Assert (index >= 0 && index < Count, "CHECK");
+            return monsterConfigs[index];
 		}
 	}
 
@@ -45,4 +45,9 @@ public class MonsterConfigs : ScriptableObject
 	{
 		get { return monsterConfigs.Count; }
 	}
+
+    public MonsterConfig GetById(int id)
+    {
+        return monsterConfigs.Find((x)=>x.id == id);
+    }
 }

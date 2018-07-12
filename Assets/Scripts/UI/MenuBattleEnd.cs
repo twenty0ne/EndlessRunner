@@ -27,7 +27,7 @@ public class MenuBattleEnd : MonoBehaviour
 		{
 			labelUnlockXian.gameObject.SetActive (true);
 
-			var xianConfig = GameManager.instance.xianConfigs [levelConfig.unlockXianId]; 
+            var xianConfig = GameManager.instance.xianConfigs.GetById(levelConfig.unlockXianId); 
 			labelUnlockXian.text = "Unlock Xian: " + xianConfig.name;
 		} 
 		else 

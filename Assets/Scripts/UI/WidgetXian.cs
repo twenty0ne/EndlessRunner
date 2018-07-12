@@ -8,8 +8,8 @@ public class WidgetXian : MonoBehaviour
 	private enum ButtonStatus
 	{
 		Lock,
-		Unlock,
-		Normal,
+		WaitKaiGuang,
+		WaitGongFeng,
 	}
 
 	public Button handleButton;
@@ -17,15 +17,16 @@ public class WidgetXian : MonoBehaviour
 	public Image headImage;
 	public Text nameLabel;
 
-	private int _xianId;
-	private ButtonStatus _btnStatus;
-	private XianConfig _xianConfig;
+    private int m_xianId;
+    private ButtonStatus m_btnStatus;
+    private XianConfig m_xianConfig;
 
-	public void Init(int xianId)
+    public void Init(int xianId)
 	{
-		_xianId = xianId;
-		var xianConfig = GameManager.instance.xianConfigs [xianId];
-		_xianConfig = xianConfig;
+		m_xianId = xianId;
+
+        var xianConfig = GameManager.instance.xianConfigs.GetById(xianId);
+		m_xianConfig = xianConfig;
 
 		headImage.sprite = xianConfig.spr;
 		nameLabel.text = xianConfig.name;
@@ -35,49 +36,66 @@ public class WidgetXian : MonoBehaviour
 
 	public void OnClickHandleButton()
 	{
-		if (_btnStatus == ButtonStatus.Lock) 
+		if (m_btnStatus == ButtonStatus.Lock) 
 		{
 		}
-		else if (_btnStatus == ButtonStatus.Unlock) 
+        else if (m_btnStatus == ButtonStatus.WaitKaiGuang) 
 		{
-			if (DataManager.instance.coin >= _xianConfig.inviteCoin) 
-			{
-				DataManager.instance.InviteXian (_xianId);
+            MXian mx = MXian.Get(m_xianId);
+            Debug.Assert(mx != null, "CHECK");
 
-				this.UpdateButtonStatus ();
-			}
+            string msg;
+            if (mx.TryKaiGuang(out msg))
+            {    
+                this.UpdateButtonStatus();
+            }
+            else
+            {
+                Debug.Log("kaiguang fail > " + msg);
+            }
 		} 
-		else if (_btnStatus == ButtonStatus.Normal) 
+        else if (m_btnStatus == ButtonStatus.WaitGongFeng) 
 		{
-			
+            MXian mx = MXian.Get(m_xianId);
+            Debug.Assert(mx != null, "CHECK");
+
+            string msg;
+            if (mx.TryGongFeng(out msg))
+            {
+                this.UpdateButtonStatus();
+            }
+            else
+            {
+                Debug.Log("gongfeng fail > " + msg);
+            }
 		}
 	}
 
 	private void UpdateButtonStatus()
 	{
-		var xianData = DataManager.instance.GetXianData (_xianId);
+		var xianData = DataManager.instance.GetXianData (m_xianId);
 
 		string btnLabel = "";
-		if (xianData == null) 
+		if (xianData == null)
 		{
-			_btnStatus = ButtonStatus.Lock;
+			m_btnStatus = ButtonStatus.Lock;
 			btnLabel = "未解锁";
 		}
 		else
 		{
 			if (xianData.lv == -1) 
 			{
-				_btnStatus = ButtonStatus.Unlock;
-				btnLabel = "请神";
+                m_btnStatus = ButtonStatus.WaitKaiGuang;
+				btnLabel = "开光";
 
-				if (DataManager.instance.coin >= _xianConfig.inviteCoin)
-					btnLabel += ">" + _xianConfig.inviteCoin.ToString ();
+                if (DataManager.instance.coin >= m_xianConfig.coinKaiGuang)
+                    btnLabel += "coin:" + m_xianConfig.coinKaiGuang.ToString ();
 				else
-					btnLabel += "><color=#FF0000FF>" + _xianConfig.inviteCoin.ToString() + "</color>";
+                    btnLabel += "coin:<color=#FF0000FF>" + m_xianConfig.coinKaiGuang.ToString() + "</color>";
 			}
-			else 
+			else
 			{
-				_btnStatus = ButtonStatus.Normal;
+                m_btnStatus = ButtonStatus.WaitGongFeng;
 				btnLabel = "供奉";
 			}
 		}

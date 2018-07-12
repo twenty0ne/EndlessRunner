@@ -4,9 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MenuMain : MonoBehaviour {
-
-	public GameObject menuXian;
+public class MenuMain : MonoBehaviour 
+{
 	public Text coinText;
 	public Text stepText;
 	public Text lvText;
@@ -20,10 +19,7 @@ public class MenuMain : MonoBehaviour {
 
 	public void OnClickViewMatesButton()
 	{
-		if (menuXian != null) 
-		{
-			menuXian.SetActive (true);
-		}
+        UIManager.Instance.OpenMenu("MenuXian");
 	}
 
 	public void OnClickToBattleButton()

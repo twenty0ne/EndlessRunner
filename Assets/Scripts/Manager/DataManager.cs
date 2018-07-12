@@ -17,6 +17,9 @@ public class DataManager : MonoBehaviour
 
 	private bool _bSavePlayerData = false;
 
+    private int m_saveFrameInterval = 10;
+    private int m_saveFrameTick = 0;
+
 	public int step
 	{
 		get { return datPlayer.step; }
@@ -82,45 +85,17 @@ public class DataManager : MonoBehaviour
 	{
 		get { return datPlayer.xianDatas; }
 	}
-       
-	public void UnlockXian(int xianId)
-	{
-#if DEBUG
-		Debug.Assert(IsUnlockXian(xianId) == false, "CHECK > " + xianId.ToString());
-#endif
 
-		var xianData = new XianData();
-		xianData.id = xianId;
-		xianData.lv = -1;
-		datPlayer.xianDatas.Add (xianData);
+    public XianData GetXianData(int xianId)
+    {
+        for (int i = 0; i < datPlayer.xianDatas.Count; ++i) 
+        {
+            if (datPlayer.xianDatas [i].id == xianId)
+                return datPlayer.xianDatas [i];
+        }
 
-		_bSavePlayerData = true;
-	}
-
-	public bool IsUnlockXian(int xianId)
-	{
-		return GetXianData (xianId) != null;
-	}
-
-	public void InviteXian(int xianId)
-	{
-		var xianData = GetXianData (xianId);
-		Debug.Assert (xianData != null, "CHECK > " + xianId.ToString ());
-		xianData.lv = 0;
-
-		_bSavePlayerData = true;
-	}
-
-	public XianData GetXianData(int xianId)
-	{
-		for (int i = 0; i < datPlayer.xianDatas.Count; ++i) 
-		{
-			if (datPlayer.xianDatas [i].id == xianId)
-				return datPlayer.xianDatas [i];
-		}
-
-		return null;
-	}
+        return null;
+    }
 
 	void Awake()
 	{
@@ -139,8 +114,11 @@ public class DataManager : MonoBehaviour
 
 	void Update()
 	{
-		if (_bSavePlayerData) 
+        m_saveFrameTick += 1;
+
+        if (_bSavePlayerData && m_saveFrameTick >= m_saveFrameInterval) 
 		{
+            m_saveFrameTick = 0;
 			_bSavePlayerData = false;
 			this.SavePlayerData ();
 		}
@@ -187,4 +165,9 @@ public class DataManager : MonoBehaviour
 		datSaver.Save (datPlayer);
 		_bSavePlayerData = false;
 	}
+
+    public void MarkSaveData()
+    {
+        _bSavePlayerData = true;
+    }
 }

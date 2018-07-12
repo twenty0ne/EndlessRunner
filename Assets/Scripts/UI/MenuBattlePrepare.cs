@@ -22,7 +22,7 @@ public class MenuBattlePrepare : MonoBehaviour
 		for (int i = 0; i < widgetActorIconSelecteds.Length; ++i) 
 		{
 			var wgt = widgetActorIconSelecteds [i];
-			wgt.onClick = OnClickWidgetActor;
+            wgt.onClick = OnClickWidgetActorPlaceHolder;
 		}
 
 		var walkerDatas = DataManager.instance.walkerDatas;
@@ -36,7 +36,8 @@ public class MenuBattlePrepare : MonoBehaviour
 			var cfg = GameManager.instance.walkerConfigs [walkerData.id];
 
 			var ctrl = obj.GetComponent<WidgetActorIcon> ();
-			ctrl.Init(WidgetActorIcon.Type.Selector, cfg.spr);
+			// ctrl.Init(WidgetActorIcon.Type.Selector, cfg.spr);
+            ctrl.actorImage.sprite = cfg.spr;
 			ctrl.onClick = OnClickWidgetActor;
 			ctrl.actorId = walkerData.id;
 	
@@ -48,7 +49,7 @@ public class MenuBattlePrepare : MonoBehaviour
 		{
 			var xianData = xianDatas [i];
 
-			if (xianData.isInvited) 
+            if (xianData.isKaiGuang) 
 			{
 				var obj = Instantiate (widgetActorIconPrefab);
 				obj.transform.SetParent (selectorWidgetsParent, false);
@@ -56,7 +57,8 @@ public class MenuBattlePrepare : MonoBehaviour
 				var cfg = GameManager.instance.xianConfigs [xianData.id];
 
 				var ctrl = obj.GetComponent<WidgetActorIcon> ();
-				ctrl.Init (WidgetActorIcon.Type.Selector, cfg.spr);
+				// ctrl.Init (WidgetActorIcon.Type.Selector, cfg.spr);
+                ctrl.actorImage.sprite = cfg.spr;
 				ctrl.onClick = OnClickWidgetActor;
 				ctrl.actorId = xianData.id;
 
@@ -82,7 +84,7 @@ public class MenuBattlePrepare : MonoBehaviour
 			if (actorId == Actor.INVALID_ID)
 				continue;
 
-            DataCacheManager.Instance.battleActorIds.Add (actorId);
+            CacheManager.Instance.battleActorIds.Add (actorId);
 		}
 
 		GameManager.sceneType = SceneType.Battle;
@@ -91,34 +93,42 @@ public class MenuBattlePrepare : MonoBehaviour
 
 	private void OnClickWidgetActor(WidgetActorIcon widget)
 	{
-		if (widget.type == WidgetActorIcon.Type.Selector) 
+		for (int i = 0; i < widgetActorIconSelecteds.Length; ++i) 
 		{
-			for (int i = 0; i < widgetActorIconSelecteds.Length; ++i) 
-			{
-				var selectedWidget = widgetActorIconSelecteds [i];
-				if (selectedWidget.actorId != Actor.INVALID_ID)
-					continue;
+			var selected = widgetActorIconSelecteds [i];
+            if (selected.actorId != Actor.INVALID_ID)
+				continue;
 
-				selectedWidget.SetActorSprite (widget.actorImage.sprite);
-				selectedWidget.actorId = widget.actorId;
-				break;
-			}	
-		}
-		else if (widget.type == WidgetActorIcon.Type.Selected) 
-		{
-			for (int i = 0; i < widgetActorIconSelectors.Count; ++i) 
-			{
-				var widgetSelector = widgetActorIconSelectors [i];
-				if (widgetSelector.actorId == widget.actorId) 
-				{
-					widgetSelector.UnSelected ();
-					break;
-				}
-			}
-		}
+            selected.actorImage.sprite = widget.actorImage.sprite;
+            selected.actorId = widget.actorId;
+
+            widget.selectedMark.SetActive(true);
+			break;
+		}	
 
 		this.UpdateBattleButtonStatus ();
 	}
+
+    private void OnClickWidgetActorPlaceHolder(WidgetActorIcon widget)
+    {
+        if (widget.actorId == Actor.INVALID_ID)
+            return;
+
+        for (int i = 0; i < widgetActorIconSelectors.Count; i++)
+        {
+            var selector = widgetActorIconSelectors[i];
+            if (selector.actorId != widget.actorId)
+                continue;
+
+            selector.selectedMark.SetActive(false);
+            break;
+        }
+
+        widget.actorImage.sprite = null;
+        widget.actorId = Actor.INVALID_ID;
+
+        this.UpdateBattleButtonStatus();
+    }
 
 	private void UpdateBattleButtonStatus()
 	{
