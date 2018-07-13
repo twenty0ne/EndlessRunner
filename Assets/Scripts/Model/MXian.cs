@@ -47,13 +47,15 @@ public class MXian : Model
     }
 
     //////////////////////////////////////////////////////////
-    private int id { get { return m_cfgXian.id; } }
+    public int id { get { return m_cfgXian.id; } }
+    public int lv { get { return m_datXian.lv; } }
+
     private XianData m_datXian;
     private XianConfig m_cfgXian;
 
     private MXian(int xianId)
     {
-        m_cfgXian = GameManager.instance.xianConfigs[xianId];
+        m_cfgXian = GameManager.instance.xianConfigs.GetById(xianId);
         m_datXian = DataManager.instance.GetXianData(xianId);
     }
 
@@ -88,7 +90,7 @@ public class MXian : Model
         {
             m_datXian.lv += 1;
             m_datXian.curLvGongFengCoin = 0;
-            Debug.Log(string.Format("xian {0} level up", m_datXian.id));
+            Debug.Log(string.Format("xian {0} level up to {1}", m_datXian.id, m_datXian.lv));
         }
         
         DataManager.instance.MarkSaveData();

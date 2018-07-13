@@ -15,7 +15,9 @@ public class WidgetXian : MonoBehaviour
 	public Button handleButton;
 	public Text handleButtonLabel;
 	public Image headImage;
-	public Text nameLabel;
+	public Text textName;
+    public Text textLv;
+    public Text textCoin;
 
     private int m_xianId;
     private ButtonStatus m_btnStatus;
@@ -29,7 +31,19 @@ public class WidgetXian : MonoBehaviour
 		m_xianConfig = xianConfig;
 
 		headImage.sprite = xianConfig.spr;
-		nameLabel.text = xianConfig.name;
+        textName.text = xianConfig.name;
+
+        XianData datXian = DataManager.instance.GetXianData(m_xianId);
+        if (datXian != null)
+        {
+            textLv.text = "Lv:" + (datXian.lv + 1).ToString();
+            textCoin.text = "";
+        }
+        else
+        {
+            textLv.text = "";
+            textCoin.text = "";
+        }
 
 		this.UpdateButtonStatus ();
 	}
@@ -47,7 +61,9 @@ public class WidgetXian : MonoBehaviour
             string msg;
             if (mx.TryKaiGuang(out msg))
             {    
-                this.UpdateButtonStatus();
+                textLv.text = "Lv:" + (mx.lv + 1).ToString();
+
+                this.UpdateButtonStatus();        
             }
             else
             {
@@ -62,6 +78,9 @@ public class WidgetXian : MonoBehaviour
             string msg;
             if (mx.TryGongFeng(out msg))
             {
+                textLv.text = "Lv:" + (mx.lv + 1).ToString();
+                textCoin.text = "";
+
                 this.UpdateButtonStatus();
             }
             else

@@ -88,10 +88,11 @@ public class DataManager : MonoBehaviour
 
     public XianData GetXianData(int xianId)
     {
-        for (int i = 0; i < datPlayer.xianDatas.Count; ++i) 
+        var xianDatas = datPlayer.xianDatas;
+        for (int i = 0; i < xianDatas.Count; ++i) 
         {
-            if (datPlayer.xianDatas [i].id == xianId)
-                return datPlayer.xianDatas [i];
+            if (xianDatas [i].id == xianId)
+                return xianDatas [i];
         }
 
         return null;
